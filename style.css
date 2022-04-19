@@ -1,0 +1,129 @@
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgb(58, 58, 58);
+  color: aliceblue;
+}
+
+button {
+  width: 20%;
+  height: 50px;
+  flex-grow: 2;
+}
+
+#container-calculator {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;  
+  /* width: 50%;
+  height: 1000px; */
+  align-items: center;
+}
+
+#button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  flex-grow: 2;
+  border: 1px solid black;
+  margin: 5px;
+}
+
+
+
+#clear,
+#divide,
+#multiply,
+#delete,
+#minus,
+#plus,
+#equals {
+  background-color: lightblue;
+  border: 1px solid rgb(57, 73, 78);
+  border-radius: 5px;
+}
+
+#clear {
+  order: 0;
+  
+}
+
+#divide {
+  order: 1;
+}
+
+#multiply {
+  order: 2;
+}
+
+#delete {
+  order: 3;
+}
+
+#minus {
+  order: 7;
+}
+
+#plus {
+  order: 11;
+}
+
+#equals {
+  order: 15;
+}
+
+#zero {
+  order: 17;
+  flex-grow: 2;
+}
+
+#one {
+  order: 12;
+}
+
+#two {
+  order: 13;
+}
+
+#three {
+  order: 14;
+}
+
+#four {
+  order: 8;
+}
+
+#five {
+  order: 9;
+}
+
+#six {
+  order: 10;
+}
+
+#seven {
+  order: 4;
+}
+
+#eight {
+  order: 5;
+}
+
+#nine {
+  order: 6;
+}
+
+#precentage {
+  order: 16;
+  flex-grow: 2;
+  justify-content: flex-start;
+}
+
+#comma{
+  order: 17;
+  flex-grow: 2;
+  justify-content: flex-start;
+}
+

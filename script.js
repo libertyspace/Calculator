@@ -22,7 +22,7 @@ function storeValue(e) {
   } else if (e.target.id !== "comma") {
     clickedValue = e.target.textContent;
     var1 = parseFloat(var1 + clickedValue);
-    console.log(var1);
+    var2 = var1;
   }
 }
 
@@ -31,9 +31,13 @@ function clearValues() {
   var2 = 0;
   var3 = 0;
   result = 0;
+  operator = 0;
+  oldOperator = 0;
 }
 
 function operate(operator, a, b) {
+  a = parseFloat(a);
+  b = parseFloat(b);
   switch (operator) {
     case "+":
       return add(a, b);
@@ -49,16 +53,19 @@ function operate(operator, a, b) {
   }
 }
 
-const screen = document.querySelector("#screen");
+const screenInput = document.querySelector("#screen-input");
+const screenResult = document.querySelector("#screen-result");
 const calButton = document.querySelectorAll(".cal-button");
 
 let var1 = "";
 let var2;
 let var3;
-let result;
+let operator;
+let oldOperator;
 
 console.log(calButton);
-screen.textContent = " 12 + 12 = 24";
+screenInput.textContent = "0";
+screenResult.textContent = "0";
 
 for (const buttons of calButton) {
   buttons.addEventListener("click", (e) => {
@@ -68,19 +75,31 @@ for (const buttons of calButton) {
       e.target.id === "multiply" ||
       e.target.id === "divide"
     ) {
-      var2 = var1;
-      var1 = "";
-      if (var3 === true) {
-        var3 = operate(e.target.textContent, var2, var3);
-        console.log(var3);
+      operator = e.target.textContent;
+      if (var3) {
+        if (var2) {
+          var3 = operate(oldOperator, var3, var2);
+          var2 = "";
+          var1 = "";
+          oldOperator = operator;
+          console.log(var3);
+        }
         // show var3
       } else if (var3 !== true) {
+        oldOperator = operator;
         var3 = var2;
+        var2 = "";
+        var1 = "";
+
         console.log(`var3 is ${var3}`);
       }
-    } else if (e.target.textContent === "=") {
-      result = operate(e.target.textContent, var2, var3);
-      var3 = result;
+    } else if (e.target.id === "equals") {
+      if (var2) {
+        var3 = operate(operator, var3, var2);
+        var2 = "";
+        var1 = "";
+      }
+
       console.log(var3);
     } else if (Number.isFinite(parseInt(e.target.textContent))) {
       storeValue(e);

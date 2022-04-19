@@ -31,6 +31,24 @@ button {
   margin: 5px;
 }
 
+#screen-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  width:95%;
+  height: 95%;
+  gap: 10px;
+  font-size: 24px;
+  color: black;
+  background-color: aliceblue;
+}
+
+#screen-input,
+#screen-result {
+  margin-right: 2%;
+}
+
 
 
 #clear,
@@ -39,6 +57,7 @@ button {
 #delete,
 #minus,
 #plus,
+#clear,
 #equals {
   background-color: lightblue;
   border: 1px solid rgb(57, 73, 78);

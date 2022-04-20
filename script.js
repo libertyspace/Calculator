@@ -14,7 +14,7 @@ function divide(a, b) {
   return a / b;
 }
 
-function storeValue(e) {
+function storeNewValue(e) {
   let clickedValue;
   if (e.target.id === "comma") {
     clickedValue = ".";
@@ -22,44 +22,57 @@ function storeValue(e) {
   } else if (e.target.id !== "comma") {
     clickedValue = e.target.textContent;
     var1 = parseFloat(var1 + clickedValue);
-    var2 = var1;
+    newValue = var1;
   }
 }
 
 function clearValues() {
   var1 = 0;
-  var2 = 0;
-  var3 = 0;
+  newValue = 0;
+  storedValue = 0;
   result = 0;
   operator = 0;
   oldOperator = 0;
+  screenInput.textContent = "0";
+  screenResult.textContent = "0";
+  screenConcat = "";
+}
+
+function writeDisplayInput(e) {
+  screenConcat = screenConcat + e.target.textContent;
+  screenInput.textContent = screenConcat;
+}
+
+function writeDisplayResult() {
+  screenResult.textContent = storedValue;
 }
 
 function operate(operator, a, b) {
   a = parseFloat(a);
   b = parseFloat(b);
   switch (operator) {
-    case "+":
+    case "plus":
       return add(a, b);
 
-    case "-":
+    case "minus":
       return subtract(a, b);
 
-    case "X":
+    case "multiply":
       return multiply(a, b);
 
-    case "/":
+    case "divide":
       return divide(a, b);
   }
 }
 
-const screenInput = document.querySelector("#screen-input");
-const screenResult = document.querySelector("#screen-result");
+let screenInput = document.querySelector("#screen-input");
+let screenResult = document.querySelector("#screen-result");
 const calButton = document.querySelectorAll(".cal-button");
 
 let var1 = "";
-let var2;
-let var3;
+let newValue;
+let storedValue;
+let screenConcat = "";
 let operator;
 let oldOperator;
 
@@ -75,37 +88,39 @@ for (const buttons of calButton) {
       e.target.id === "multiply" ||
       e.target.id === "divide"
     ) {
-      operator = e.target.textContent;
-      if (var3) {
-        if (var2) {
-          var3 = operate(oldOperator, var3, var2);
-          var2 = "";
+      writeDisplayInput(e);
+      operator = e.target.id;
+      if (storedValue) {
+        if (newValue) {
+          storedValue = operate(oldOperator, storedValue, newValue);
+          newValue = "";
           var1 = "";
           oldOperator = operator;
-          console.log(var3);
+          writeDisplayResult();
+          console.log(storedValue);
         }
-        // show var3
-      } else if (var3 !== true) {
+        // show storedValue
+      } else if (storedValue !== true) {
         oldOperator = operator;
-        var3 = var2;
-        var2 = "";
+        storedValue = newValue;
+        newValue = "";
         var1 = "";
 
-        console.log(`var3 is ${var3}`);
+        console.log(`storedValue is ${storedValue}`);
       }
     } else if (e.target.id === "equals") {
-      if (var2) {
-        var3 = operate(operator, var3, var2);
-        var2 = "";
+      if (newValue) {
+        storedValue = operate(operator, storedValue, newValue);
+        newValue = "";
         var1 = "";
+        writeDisplayResult();
       }
-
-      console.log(var3);
     } else if (Number.isFinite(parseInt(e.target.textContent))) {
-      storeValue(e);
+      storeNewValue(e);
+      writeDisplayInput(e);
 
-      console.log(var2);
-    } else if (e.target.textContent === "C") {
+      console.log(newValue);
+    } else if (e.target.id === "clear") {
       clearValues();
     }
   });

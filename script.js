@@ -27,7 +27,6 @@ function storeNewValue(e) {
 }
 
 function clearValues() {
-  var1 = 0;
   newValue = 0;
   storedValue = 0;
   result = 0;
@@ -38,9 +37,50 @@ function clearValues() {
   screenConcat = "";
 }
 
+function deleteValue() {
+  newValue = parseFloat(newValue.toString().slice(0, -1));
+  let lastNumber = screenInput.textContent.slice(0, -1);
+  if (lastNumber === "") {
+    screenInput.textContent = "0";
+    screenConcat = "";
+    newValue = 0;
+  } else {
+    screenInput.textContent = lastNumber;
+  }
+
+  console.log(lastNumber);
+}
+
 function writeDisplayInput(e) {
-  screenConcat = screenConcat + e.target.textContent;
-  screenInput.textContent = screenConcat;
+  let lastChar = e.target.textContent.slice(0, -1);
+  if (
+    e.target.id === "plus" ||
+    e.target.id === "minus" ||
+    e.target.id === "multiply" ||
+    e.target.id === "divide"
+  ) {
+    if (
+      lastChar === "+" ||
+      lastChar === "-" ||
+      lastChar === "×" ||
+      lastChar === "÷"
+    ) {
+    } else {
+      if (newValue === undefined) {
+        screenInput.textContent = "0";
+        screenResult.textContent = "0";
+        screenConcat = "";
+      } else if (newValue !== undefined) {
+        screenConcat = storedValue.toString() + e.target.textContent;
+        screenResult.textContent = screenConcat;
+        screenInput.textContent = "0";
+        screenConcat = "";
+      }
+    }
+  } else if (Number.isFinite(parseFloat(e.target.textContent))) {
+    screenConcat = screenConcat + e.target.textContent;
+    screenInput.textContent = screenConcat;
+  }
 }
 
 function writeDisplayResult() {
@@ -71,12 +111,11 @@ const calButton = document.querySelectorAll(".cal-button");
 
 let var1 = "";
 let newValue;
-let storedValue;
+let storedValue = 0;
 let screenConcat = "";
 let operator;
 let oldOperator;
 
-console.log(calButton);
 screenInput.textContent = "0";
 screenResult.textContent = "0";
 
@@ -88,7 +127,6 @@ for (const buttons of calButton) {
       e.target.id === "multiply" ||
       e.target.id === "divide"
     ) {
-      writeDisplayInput(e);
       operator = e.target.id;
       if (storedValue) {
         if (newValue) {
@@ -96,18 +134,14 @@ for (const buttons of calButton) {
           newValue = "";
           var1 = "";
           oldOperator = operator;
-          writeDisplayResult();
-          console.log(storedValue);
         }
-        // show storedValue
       } else if (storedValue !== true) {
         oldOperator = operator;
         storedValue = newValue;
         newValue = "";
         var1 = "";
-
-        console.log(`storedValue is ${storedValue}`);
       }
+      writeDisplayInput(e);
     } else if (e.target.id === "equals") {
       if (newValue) {
         storedValue = operate(operator, storedValue, newValue);
@@ -122,6 +156,10 @@ for (const buttons of calButton) {
       console.log(newValue);
     } else if (e.target.id === "clear") {
       clearValues();
+    } else if (e.target.id === "delete") {
+      deleteValue();
     }
+    console.log(operator);
+    console.log(newValue);
   });
 }

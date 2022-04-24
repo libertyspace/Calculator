@@ -85,6 +85,7 @@ function writeDisplayInput(e) {
 
 function writeDisplayResult() {
   screenResult.textContent = storedValue;
+  screenInput.textContent = "0";
 }
 
 function operate(operator, a, b) {

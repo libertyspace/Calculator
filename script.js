@@ -32,9 +32,11 @@ function clearValues() {
   result = 0;
   operator = 0;
   oldOperator = 0;
+  var1 = "";
   screenInput.textContent = "0";
   screenResult.textContent = "0";
   screenConcat = "";
+  storedValue = 0;
 }
 
 function deleteValue() {
@@ -48,7 +50,7 @@ function deleteValue() {
     screenInput.textContent = lastNumber;
   }
 
-  console.log(lastNumber);
+  console.log("lastNumber is: " + lastNumber);
 }
 
 function writeDisplayInput(e) {
@@ -154,13 +156,14 @@ for (const buttons of calButton) {
       storeNewValue(e);
       writeDisplayInput(e);
 
-      console.log(newValue);
+      console.log("the newValue is: " + newValue);
     } else if (e.target.id === "clear") {
       clearValues();
     } else if (e.target.id === "delete") {
       deleteValue();
     }
-    console.log(operator);
-    console.log(newValue);
+    console.log("operator is: " + operator);
+    console.log("newValue is: " + newValue);
+    console.log("storedValue is: " + storedValue);
   });
 }
